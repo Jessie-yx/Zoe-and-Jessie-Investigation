@@ -1,0 +1,2003 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Model vs Human Norms</title>
+<style>
+/* Layout: phone-first single column (max 640px on larger screens).
+   Survey tabs stick to the top; the sampling-setting bar is fixed to the bottom
+   within thumb reach, so the result strips stay on screen while settings change.
+   Forced light theme. Colours from poster Palette 2. Type: Helvetica. */
+:root{
+  color-scheme: light;
+  /* Poster Palette 2 */
+  --burgundy:#4A0404; --plum:#7A2240; --coral:#E05A47; --amber:#D99B00;
+  --teal:#00A3A6; --digital:#0E4BE3; --electric:#00C2FF; --slate:#6B7C96;
+  /* Tints of the solids on white */
+  --coral-50:#F0ACA3; --slate-25:#DADEE5; --plum-12:#EFE4E8; --amber-12:#FAF3E0;
+  /* Roles */
+  --bg:#FFFFFF; --panel:#F8F5F6; --line:#E7DFE2; --line-strong:#CDBFC5;
+  --ink:#2B1D22; --muted:#6A5E64; --accent:var(--plum);
+  --model:var(--coral); --model-range:var(--coral-50);
+  --people:var(--slate); --people-band:var(--slate-25);
+  /* Type */
+  --font:"Helvetica Neue", Helvetica, Arial, "Liberation Sans", sans-serif;
+  --fs-xs:.75rem; --fs-sm:.875rem; --fs-md:1rem; --fs-lg:1.2rem; --fs-xl:1.75rem;
+  --r:12px; --tap:44px;
+  --bar-h:120px;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{background:var(--bg);-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:var(--fs-md);line-height:1.5;
+  padding-bottom:calc(var(--bar-h) + 24px);-webkit-font-smoothing:antialiased;
+  -webkit-tap-highlight-color:transparent}
+.wrap{max-width:640px;margin:0 auto;padding-inline:16px}
+a{color:var(--accent);text-underline-offset:2px}
+button{font-family:inherit;font-size:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--digital);outline-offset:2px;border-radius:6px}
+
+/* ---------- masthead ---------- */
+.mast{padding-block:20px 16px;display:grid;gap:8px}
+.eyebrow{margin:0;font-size:.6875rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--plum)}
+h1{margin:0;font-size:var(--fs-xl);line-height:1.12;font-weight:700;letter-spacing:-.015em;color:var(--burgundy);text-wrap:balance}
+.lede{margin:0;font-size:var(--fs-md)}
+.no-people{margin:0;font-size:var(--fs-sm);color:var(--muted)}
+.no-people b{color:var(--ink)}
+
+/* ---------- sticky survey tabs ---------- */
+.tabs-wrap{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+.tabs{max-width:640px;margin:0 auto;padding:8px 16px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.tab{appearance:none;cursor:pointer;min-height:var(--tap);border:1px solid var(--line-strong);background:var(--bg);border-radius:10px;
+  font-weight:700;font-size:.9375rem;letter-spacing:.02em;padding:0 4px}
+.tab[aria-selected="true"]{background:var(--burgundy);border-color:var(--burgundy);color:#fff}
+
+/* ---------- survey head ---------- */
+.survey{scroll-margin-top:72px;padding-top:18px}
+.s-kicker{margin:0;font-size:var(--fs-xs);font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--plum)}
+.survey h2{margin:2px 0 0;font-size:var(--fs-lg);line-height:1.25;text-wrap:balance}
+.s-measures{margin:8px 0 0}
+.s-reading{margin:8px 0 0;font-size:var(--fs-sm);color:var(--muted)}
+
+/* ---------- results ---------- */
+.res{margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}
+.res h3{margin:0;font-size:var(--fs-md);font-weight:700}
+.summary{margin:4px 0 0;font-size:var(--fs-sm)}
+.legend{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;margin:12px 0 4px;padding:10px 12px;background:var(--panel);border-radius:10px;
+  font-size:var(--fs-xs);line-height:1.3;color:var(--muted)}
+.legend span{display:flex;align-items:center;gap:8px}
+.legend i{flex:none}
+.k-dot{width:12px;height:12px;border-radius:50%;background:var(--model)}
+.k-range{width:20px;height:6px;border-radius:3px;background:var(--model-range)}
+.k-mean{width:3px;height:16px;border-radius:2px;background:var(--people);margin-inline:8px}
+.k-band{width:20px;height:14px;border-radius:3px;background:var(--people-band)}
+
+.group-label{margin:18px 0 0;font-size:var(--fs-xs);font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--plum)}
+.row{padding:14px 0 12px;border-bottom:1px solid var(--line)}
+.row:last-child{border-bottom:0}
+.row-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.row h4{margin:0;font-size:var(--fs-md);font-weight:700;line-height:1.3;min-width:0}
+.row .desc{margin:2px 0 0;font-size:var(--fs-sm);color:var(--muted)}
+.chip{flex:none;display:inline-flex;align-items:center;gap:4px;margin-top:1px;font-size:var(--fs-xs);font-weight:700;border-radius:999px;padding:3px 9px;white-space:nowrap;
+  border:1px solid var(--line-strong);background:var(--bg);color:var(--ink);font-variant-numeric:tabular-nums}
+.chip .z{font-weight:400;color:var(--muted)}
+.chip.out{border-color:var(--plum);background:var(--plum-12);color:var(--burgundy)}
+.chip.out .z{color:var(--plum)}
+
+.strip{position:relative;height:30px;margin:12px 7px 0}
+.strip .rail{position:absolute;left:0;right:0;top:50%;height:2px;margin-top:-1px;background:var(--line-strong);border-radius:1px}
+.strip .rail::before,.strip .rail::after{content:"";position:absolute;top:-5px;width:2px;height:12px;background:var(--line-strong);border-radius:1px}
+.strip .rail::before{left:0}.strip .rail::after{right:0}
+.strip .band{position:absolute;top:50%;height:18px;margin-top:-9px;background:var(--people-band);border-radius:4px}
+.strip .range{position:absolute;top:50%;height:6px;margin-top:-3px;background:var(--model-range);border-radius:3px}
+.strip .mean{position:absolute;top:50%;width:3px;height:26px;margin-top:-13px;margin-left:-1.5px;background:var(--people);border-radius:2px}
+.strip .dot{position:absolute;top:50%;width:16px;height:16px;margin-top:-8px;margin-left:-8px;border-radius:50%;background:var(--model);
+  box-shadow:0 0 0 2px #fff;transition:left .5s cubic-bezier(.2,.75,.2,1)}
+.axis{position:relative;height:16px;margin:3px 7px 0;font-size:.6875rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.axis span{position:absolute;top:0;transform:translateX(-50%)}
+.axis span:first-child{transform:none}
+.axis span:last-child{transform:translateX(-100%)}
+.readout{display:flex;flex-wrap:wrap;gap:4px 18px;margin-top:6px;font-size:var(--fs-sm);font-variant-numeric:tabular-nums}
+.readout span{display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
+.readout .k-dot{width:10px;height:10px}
+.readout .k-mean{height:13px;margin-inline:3px}
+.readout b{font-weight:700}
+.readout .sd{color:var(--muted)}
+
+/* ---------- about ---------- */
+.about{margin-top:18px;padding:14px;background:var(--panel);border-radius:var(--r);display:grid;gap:12px}
+.about h3{margin:0;font-size:var(--fs-md)}
+.about dl{margin:0;display:grid;gap:10px}
+.about dt{font-size:var(--fs-xs);font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--plum)}
+.about dd{margin:2px 0 0;font-size:var(--fs-sm)}
+.about .example{font-style:italic}
+.about a{overflow-wrap:anywhere}
+
+.next{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;min-height:52px;margin-top:16px;padding:10px 16px;cursor:pointer;
+  background:var(--bg);border:1.5px solid var(--plum);border-radius:var(--r);color:var(--plum);font-weight:700;text-align:left}
+.next small{display:block;font-weight:400;color:var(--muted);font-size:var(--fs-xs)}
+.next .arrow{font-size:1.25rem;line-height:1}
+
+/* ---------- footer ---------- */
+footer{margin-top:28px;padding-top:16px;border-top:1px solid var(--line);font-size:var(--fs-xs);color:var(--muted);display:grid;gap:8px}
+footer h2{margin:0;font-size:var(--fs-xs);font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--plum)}
+footer ol{margin:0;padding-left:18px;display:grid;gap:6px}
+footer a{overflow-wrap:anywhere}
+footer p{margin:0}
+
+/* ---------- bottom setting bar ---------- */
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:6;background:var(--bg);border-top:1px solid var(--line-strong);
+  box-shadow:0 -6px 20px rgba(43,29,34,.10);padding-bottom:env(safe-area-inset-bottom,0px)}
+.bar-inner{max-width:640px;margin:0 auto;padding:8px 16px 10px;display:grid;gap:8px}
+.bar-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.bar-label{font-size:.6875rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--plum)}
+.bar-code{display:block;font-size:var(--fs-sm);font-weight:700;font-variant-numeric:tabular-nums}
+.more{appearance:none;cursor:pointer;min-height:36px;padding:0 12px;border:1px solid var(--line-strong);border-radius:999px;background:var(--bg);
+  font-size:var(--fs-sm);font-weight:700;color:var(--plum);white-space:nowrap}
+.more[aria-expanded="true"]{background:var(--plum-12);border-color:var(--plum)}
+.more-panel{display:grid;gap:8px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+.grid-toggle{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.grid-toggle button{cursor:pointer;min-height:40px;border:1px solid var(--line-strong);background:var(--bg);border-radius:10px;font-size:var(--fs-sm);font-weight:700;padding:0 6px}
+.grid-toggle button[aria-pressed="true"]{background:var(--plum);border-color:var(--plum);color:#fff}
+.param{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.45fr);align-items:center;gap:10px}
+.p-name{display:block;font-size:var(--fs-sm);font-weight:700;line-height:1.2}
+.p-gloss{display:block;font-size:.6875rem;color:var(--muted);line-height:1.25;margin-top:1px}
+.p-tag{display:inline-block;margin-top:4px;font-size:.625rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#6E4A00;
+  background:var(--amber-12);border:1px solid #EFD9A3;border-radius:999px;padding:1px 6px}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;border:1px solid var(--line-strong);border-radius:10px;overflow:hidden;background:var(--bg)}
+.seg button{cursor:pointer;min-height:var(--tap);border:0;border-left:1px solid var(--line);background:transparent;padding:0 2px;
+  font-size:var(--fs-md);font-weight:500;font-variant-numeric:tabular-nums}
+.seg button:first-child{border-left:0}
+.seg button[aria-pressed="true"]{background:var(--burgundy);color:#fff;font-weight:700}
+
+#tip{position:fixed;z-index:10;pointer-events:none;background:var(--ink);color:#fff;font-size:var(--fs-xs);line-height:1.4;padding:6px 9px;border-radius:6px;
+  max-width:240px;font-variant-numeric:tabular-nums;box-shadow:0 4px 14px rgba(43,29,34,.18)}
+
+@media (hover:hover){
+  .tab:hover:not([aria-selected="true"]),.seg button:hover:not([aria-pressed="true"]),.grid-toggle button:hover:not([aria-pressed="true"]){background:var(--plum-12)}
+  .next:hover{background:var(--plum-12)}
+}
+@media (min-width:700px){
+  :root{--fs-xl:2.1rem}
+  .mast{padding-top:32px}
+}
+@media (prefers-reduced-motion:reduce){ .strip .dot{transition:none} }
+</style>
+
+<header class="wrap mast">
+  <p class="eyebrow">Wits · Electrical &amp; Information Engineering</p>
+  <h1>Does the model score like a person?</h1>
+  <p class="lede">A language model answered four psychology questionnaires, 30 times at each of 54 sampling settings. Compare its scores with published averages from people.</p>
+  <p class="no-people"><b>No people took part in this study.</b> Human figures come from the published papers cited under each questionnaire.</p>
+</header>
+
+<div class="tabs-wrap">
+  <nav class="tabs" role="tablist" aria-label="Questionnaire" id="tabs"></nav>
+</div>
+
+<main class="wrap">
+  <section class="survey" id="survey" aria-live="polite">
+    <p class="s-kicker" id="s-kicker"></p>
+    <h2 id="s-full"></h2>
+    <p class="s-measures" id="s-measures"></p>
+    <p class="s-reading" id="s-reading"></p>
+  </section>
+
+  <section class="res" aria-labelledby="res-h">
+    <h3 id="res-h">Model vs people</h3>
+    <p class="summary" id="summary"></p>
+    <div class="legend" aria-label="Legend">
+      <span><i class="k-dot"></i>Model at this setting</span>
+      <span><i class="k-range"></i>Model over all 54 settings</span>
+      <span><i class="k-mean"></i>Human average</span>
+      <span><i class="k-band"></i>Human range: average ± 1 SD (about 2 in 3 people)</span>
+    </div>
+    <div id="rows"></div>
+  </section>
+
+  <section class="about" id="about"></section>
+
+  <button class="next" type="button" id="next"></button>
+
+  <footer>
+    <p>Model scores are the mean of 30 runs at each setting, on the same scoring scale as each paper. Human ranges use the standard deviation reported in the same table as the average.</p>
+  </footer>
+</main>
+
+<div class="bar" id="bar">
+  <div class="bar-inner">
+    <div class="bar-top">
+      <div><span class="bar-label">Sampling setting</span><span class="bar-code" id="bar-code"></span></div>
+      <button class="more" type="button" id="more" aria-expanded="false" aria-controls="more-panel">All settings</button>
+    </div>
+    <div class="more-panel" id="more-panel" hidden>
+      <div class="grid-toggle" id="grid-toggle"></div>
+      <div id="params" style="display:grid;gap:8px"></div>
+    </div>
+    <div id="param-R"></div>
+  </div>
+</div>
+<div id="tip" hidden></div>
+
+<script>
+/* ======================================================================
+   SURVEY DEFINITIONS AND PUBLISHED HUMAN NORMS
+   Each subscale: key = exact name used in OUR_RESULTS below.
+   norm = [mean, SD] from the cited table. scale = [min, max] of the
+   subscale score as the paper scores it (sum of items, or item mean).
+   ====================================================================== */
+const SURVEYS = {
+  ANPS: {
+    tab: "ANPS", tabSub: "Core emotions",
+    full: "Affective Neuroscience Personality Scales",
+    measures: "Basic emotional tendencies that influence personality, behaviour and mental health.",
+    reading: "Higher scores mean that emotional system is more active. SEEKING, PLAYFULNESS and CARING are positive systems. ANGER, FEAR and SADNESS are negative systems.",
+    format: "36-item short form. 6 items per scale, each answered from Strongly disagree (0) to Strongly agree (3). Items are summed, so each scale runs from 0 to 18.",
+    example: "“My curiosity often drives me to do things.”",
+    scale: [0, 18], decimals: 2,
+    groups: [
+      { label: "Positive systems", subs: [
+        { key: "SEEKING", name: "SEEKING", desc: "Curiosity, exploration, motivation and interest in novelty.", norm: [12.96, 2.84] },
+        { key: "PLAYFULNESS", name: "PLAYFULNESS", desc: "Joy, humour, social play and spontaneity.", norm: [12.70, 2.85] },
+        { key: "CARING", name: "CARING", desc: "Nurturance, empathy and concern for others.", norm: [11.79, 3.06] }
+      ]},
+      { label: "Negative systems", subs: [
+        { key: "ANGER", name: "ANGER", desc: "Irritability, frustration and proneness to rage.", norm: [7.72, 3.71] },
+        { key: "FEAR", name: "FEAR", desc: "Anxiety, worry, tension and sensitivity to threat.", norm: [8.38, 3.59] },
+        { key: "SADNESS", name: "SADNESS", desc: "Separation distress, loneliness and emotional loss.", norm: [6.92, 3.50] }
+      ]}
+    ],
+    normNote: "831 adults from France (400) and Canada (431), men and women pooled. The paper reports each country and sex separately (Table 1). The average and SD shown here pool those four groups.",
+    cite: "Pingault, Falissard, Côté & Berthoz (2012). A new approach of personality and psychiatric disorders: a short version of the Affective Neuroscience Personality Scales. PLoS ONE 7(7): e41489.",
+    link: "https://doi.org/10.1371/journal.pone.0041489"
+  },
+  GASP: {
+    tab: "GASP", tabSub: "Guilt & shame",
+    full: "Guilt and Shame Proneness Scale",
+    measures: "Moral emotional tendencies that shape ethical decisions, behaviour towards others and self-evaluation after wrongdoing.",
+    reading: "Higher guilt scores go with ethical behaviour, empathy and responsibility. Higher shame-withdrawal goes with avoidance and poorer adjustment. Shame self-evaluation reflects judging yourself harshly after a public failure.",
+    format: "16 items. Each describes a short scenario and asks how likely a reaction is, from Very unlikely (1) to Very likely (7). 4 items per scale, averaged, so each scale runs from 1 to 7.",
+    example: "“You lie to people but they never find out about it. What is the likelihood that you would feel terrible about the lies you told?”",
+    scale: [1, 7], decimals: 2,
+    groups: [
+      { label: "Guilt", subs: [
+        { key: "Guilt-NBE", name: "Negative behaviour evaluation", desc: "Feeling bad about one's own unethical actions and owning the mistake.", norm: [5.55, 1.18] },
+        { key: "Guilt-Repair", name: "Repair", desc: "Wanting to correct mistakes, apologise and make amends.", norm: [5.66, 0.95] }
+      ]},
+      { label: "Shame", subs: [
+        { key: "Shame-NSE", name: "Negative self-evaluation", desc: "Seeing oneself as incompetent or a bad person after a public transgression.", norm: [5.62, 1.06] },
+        { key: "Shame-Withdraw", name: "Withdrawal", desc: "Wanting to hide or pull away from others after embarrassment or exposure.", norm: [3.03, 1.18] }
+      ]}
+    ],
+    normNote: "862 US adults recruited online (Study 2, Table 3).",
+    cite: "Cohen, Wolf, Panter & Insko (2011). Introducing the GASP scale: a new measure of guilt and shame proneness. Journal of Personality and Social Psychology 100(5): 947–966.",
+    link: "https://doi.org/10.1037/a0022641"
+  },
+  IUS: {
+    tab: "IUS", tabSub: "Uncertainty",
+    full: "Intolerance of Uncertainty Scale",
+    measures: "How strongly uncertainty feels stressful, threatening and unacceptable. It is closely linked to worry and anxiety.",
+    reading: "Higher scores mean less tolerance of uncertainty. High levels go with excessive worry, generalised anxiety and avoidance.",
+    format: "12-item short form. Each item is rated from Not at all characteristic of me (1) to Entirely characteristic of me (5). Items are summed: prospective anxiety has 7 items (7 to 35), inhibitory anxiety has 5 (5 to 25).",
+    example: "“Unforeseen events upset me greatly.”",
+    decimals: 2,
+    groups: [
+      { label: null, subs: [
+        { key: "Prospective Anxiety", name: "Prospective anxiety", desc: "Wanting predictability. Discomfort with surprises and a strong need to know what the future holds.", norm: [16.68, 6.00], scale: [7, 35] },
+        { key: "Inhibitory Anxiety", name: "Inhibitory anxiety", desc: "Struggling to act when the outcome is uncertain. Hesitation, avoidance and freezing.", norm: [9.17, 4.15], scale: [5, 25] }
+      ]}
+    ],
+    normNote: "818 undergraduate students (Table 4).",
+    cite: "Carleton, Norton & Asmundson (2007). Fearing the unknown: a short version of the Intolerance of Uncertainty Scale. Journal of Anxiety Disorders 21(1): 105–117.",
+    link: "https://doi.org/10.1016/j.janxdis.2006.03.014"
+  },
+  TDDS: {
+    tab: "TDDS", tabSub: "Disgust",
+    full: "Three-Domain Disgust Scale",
+    measures: "How strongly people feel disgust towards disease risks, sexual behaviour and moral violations.",
+    reading: "Higher scores mean stronger disgust in that domain.",
+    format: "21 items, 7 per domain. Each is rated from Not at all disgusting (0) to Extremely disgusting (6). Items are averaged, so each domain runs from 0 to 6.",
+    example: "“Stealing from a neighbor.” (moral domain)",
+    scale: [0, 6], decimals: 2,
+    groups: [
+      { label: null, subs: [
+        { key: "Pathogen Disgust", name: "Pathogen disgust", desc: "Contamination, disease, bodily fluids, poor hygiene, spoiled food and injuries.", norm: [3.87, 1.19] },
+        { key: "Sexual Disgust", name: "Sexual disgust", desc: "Sexual behaviours, partners and situations seen as risky or costly.", norm: [3.31, 1.52] },
+        { key: "Moral Disgust", name: "Moral disgust", desc: "Cheating, lying, stealing and exploitation.", norm: [3.70, 1.14] }
+      ]}
+    ],
+    normNote: "507 participants, 309 women and 198 men (Study 4, Table 3). Sexual disgust differs a lot by sex in this sample: men average 2.19 and women 4.03.",
+    cite: "Tybur, Lieberman & Griskevicius (2009). Microbes, mating, and morality: individual differences in three functional domains of disgust. Journal of Personality and Social Psychology 97(1): 103–122.",
+    link: "https://doi.org/10.1037/a0015474"
+  }
+};
+
+/* Sampling parameters, keyed by the letter used in the condition labels. */
+const PARAMS = {
+  T: { name: "Temperature", gloss: "Randomness of word choice" },
+  K: { name: "Top-k", gloss: "Only the k likeliest words" },
+  P: { name: "Top-p", gloss: "Only the likeliest words, up to probability p" },
+  M: { name: "Min-p", gloss: "Drops words below p × the top word" },
+  R: { name: "Repetition penalty", gloss: "Above 1 discourages repeats" }
+};
+const GRIDS = {
+  TKR: { label: "Temperature · Top-k", order: ["T", "K", "R"] },
+  PMR: { label: "Top-p · Min-p", order: ["P", "M", "R"] }
+};
+const DEFAULT = { grid: "TKR", T: "0.5", K: "50", P: "0.825", M: "0.055", R: "1.1" };
+
+/* ======================================================================
+   MODEL RESULTS
+   Paste the output of aggregate_html_results.py (html_dropdown_data.js)
+   over the block below. Values are assumed to already be on each paper's
+   scoring scale. Keys not listed in SURVEYS (e.g. "Overall") are ignored.
+   ====================================================================== */
+const OUR_RESULTS = {
+  "P0.7, M0.01, R0.9": {
+    "ANPS": {
+      "ANGER": 3.1,
+      "CARING": 12.43,
+      "FEAR": 3.9,
+      "PLAYFULNESS": 12.1,
+      "SADNESS": 6.63,
+      "SEEKING": 12.7
+    },
+    "GASP": {
+      "Guilt-NBE": 3.42,
+      "Guilt-Repair": 5.01,
+      "Overall": 3.23,
+      "Shame-NSE": 2.59,
+      "Shame-Withdraw": 1.88
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 7.17,
+      "Prospective Anxiety": 19.9
+    },
+    "TDDS": {
+      "Moral Disgust": 1.68,
+      "Overall": 2.39,
+      "Pathogen Disgust": 3.29,
+      "Sexual Disgust": 2.2
+    }
+  },
+  "P0.7, M0.01, R1.1": {
+    "ANPS": {
+      "ANGER": 2.67,
+      "CARING": 12.17,
+      "FEAR": 3.9,
+      "PLAYFULNESS": 12.33,
+      "SADNESS": 6.57,
+      "SEEKING": 13.33
+    },
+    "GASP": {
+      "Guilt-NBE": 3.61,
+      "Guilt-Repair": 5.04,
+      "Overall": 3.28,
+      "Shame-NSE": 2.68,
+      "Shame-Withdraw": 1.77
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 7.13,
+      "Prospective Anxiety": 20.2
+    },
+    "TDDS": {
+      "Moral Disgust": 1.49,
+      "Overall": 2.31,
+      "Pathogen Disgust": 3.3,
+      "Sexual Disgust": 2.15
+    }
+  },
+  "P0.7, M0.01, R1.3": {
+    "ANPS": {
+      "ANGER": 4.8,
+      "CARING": 11.53,
+      "FEAR": 5.8,
+      "PLAYFULNESS": 10.93,
+      "SADNESS": 7.77,
+      "SEEKING": 11.8
+    },
+    "GASP": {
+      "Guilt-NBE": 3.37,
+      "Guilt-Repair": 4.7,
+      "Overall": 3.46,
+      "Shame-NSE": 3.36,
+      "Shame-Withdraw": 2.4
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 10.5,
+      "Prospective Anxiety": 19.17
+    },
+    "TDDS": {
+      "Moral Disgust": 1.44,
+      "Overall": 2.2,
+      "Pathogen Disgust": 3.05,
+      "Sexual Disgust": 2.12
+    }
+  },
+  "P0.7, M0.055, R0.9": {
+    "ANPS": {
+      "ANGER": 3.07,
+      "CARING": 12.5,
+      "FEAR": 2.67,
+      "PLAYFULNESS": 12.3,
+      "SADNESS": 6.6,
+      "SEEKING": 12.53
+    },
+    "GASP": {
+      "Guilt-NBE": 3.49,
+      "Guilt-Repair": 5.1,
+      "Overall": 3.26,
+      "Shame-NSE": 2.77,
+      "Shame-Withdraw": 1.68
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 6.8,
+      "Prospective Anxiety": 20.03
+    },
+    "TDDS": {
+      "Moral Disgust": 1.62,
+      "Overall": 2.39,
+      "Pathogen Disgust": 3.31,
+      "Sexual Disgust": 2.23
+    }
+  },
+  "P0.7, M0.055, R1.1": {
+    "ANPS": {
+      "ANGER": 2.5,
+      "CARING": 12.1,
+      "FEAR": 4.0,
+      "PLAYFULNESS": 12.27,
+      "SADNESS": 6.6,
+      "SEEKING": 12.97
+    },
+    "GASP": {
+      "Guilt-NBE": 3.44,
+      "Guilt-Repair": 5.08,
+      "Overall": 3.23,
+      "Shame-NSE": 2.67,
+      "Shame-Withdraw": 1.72
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 7.03,
+      "Prospective Anxiety": 19.6
+    },
+    "TDDS": {
+      "Moral Disgust": 1.43,
+      "Overall": 2.31,
+      "Pathogen Disgust": 3.23,
+      "Sexual Disgust": 2.28
+    }
+  },
+  "P0.7, M0.055, R1.3": {
+    "ANPS": {
+      "ANGER": 4.9,
+      "CARING": 11.7,
+      "FEAR": 5.97,
+      "PLAYFULNESS": 11.53,
+      "SADNESS": 7.63,
+      "SEEKING": 11.67
+    },
+    "GASP": {
+      "Guilt-NBE": 3.27,
+      "Guilt-Repair": 4.78,
+      "Overall": 3.45,
+      "Shame-NSE": 3.42,
+      "Shame-Withdraw": 2.33
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 9.9,
+      "Prospective Anxiety": 18.83
+    },
+    "TDDS": {
+      "Moral Disgust": 1.16,
+      "Overall": 2.03,
+      "Pathogen Disgust": 2.84,
+      "Sexual Disgust": 2.1
+    }
+  },
+  "P0.7, M0.1, R0.9": {
+    "ANPS": {
+      "ANGER": 2.73,
+      "CARING": 12.63,
+      "FEAR": 3.4,
+      "PLAYFULNESS": 12.33,
+      "SADNESS": 6.47,
+      "SEEKING": 12.5
+    },
+    "GASP": {
+      "Guilt-NBE": 3.56,
+      "Guilt-Repair": 5.03,
+      "Overall": 3.27,
+      "Shame-NSE": 2.77,
+      "Shame-Withdraw": 1.72
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 7.13,
+      "Prospective Anxiety": 20.03
+    },
+    "TDDS": {
+      "Moral Disgust": 1.54,
+      "Overall": 2.37,
+      "Pathogen Disgust": 3.34,
+      "Sexual Disgust": 2.23
+    }
+  },
+  "P0.7, M0.1, R1.1": {
+    "ANPS": {
+      "ANGER": 2.63,
+      "CARING": 12.47,
+      "FEAR": 3.9,
+      "PLAYFULNESS": 12.2,
+      "SADNESS": 6.13,
+      "SEEKING": 12.77
+    },
+    "GASP": {
+      "Guilt-NBE": 3.46,
+      "Guilt-Repair": 5.06,
+      "Overall": 3.22,
+      "Shame-NSE": 2.58,
+      "Shame-Withdraw": 1.77
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 7.8,
+      "Prospective Anxiety": 19.2
+    },
+    "TDDS": {
+      "Moral Disgust": 1.47,
+      "Overall": 2.22,
+      "Pathogen Disgust": 3.12,
+      "Sexual Disgust": 2.06
+    }
+  },
+  "P0.7, M0.1, R1.3": {
+    "ANPS": {
+      "ANGER": 5.13,
+      "CARING": 11.33,
+      "FEAR": 5.6,
+      "PLAYFULNESS": 11.27,
+      "SADNESS": 7.4,
+      "SEEKING": 11.53
+    },
+    "GASP": {
+      "Guilt-NBE": 3.37,
+      "Guilt-Repair": 4.72,
+      "Overall": 3.39,
+      "Shame-NSE": 3.32,
+      "Shame-Withdraw": 2.17
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 9.63,
+      "Prospective Anxiety": 19.7
+    },
+    "TDDS": {
+      "Moral Disgust": 1.2,
+      "Overall": 2.15,
+      "Pathogen Disgust": 3.03,
+      "Sexual Disgust": 2.21
+    }
+  },
+  "P0.825, M0.01, R0.9": {
+    "ANPS": {
+      "ANGER": 2.1,
+      "CARING": 12.47,
+      "FEAR": 2.53,
+      "PLAYFULNESS": 11.97,
+      "SADNESS": 6.33,
+      "SEEKING": 12.83
+    },
+    "GASP": {
+      "Guilt-NBE": 3.52,
+      "Guilt-Repair": 5.04,
+      "Overall": 3.23,
+      "Shame-NSE": 2.66,
+      "Shame-Withdraw": 1.69
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 7.13,
+      "Prospective Anxiety": 19.6
+    },
+    "TDDS": {
+      "Moral Disgust": 1.62,
+      "Overall": 2.4,
+      "Pathogen Disgust": 3.37,
+      "Sexual Disgust": 2.19
+    }
+  },
+  "P0.825, M0.01, R1.1": {
+    "ANPS": {
+      "ANGER": 2.23,
+      "CARING": 12.6,
+      "FEAR": 3.63,
+      "PLAYFULNESS": 12.3,
+      "SADNESS": 5.33,
+      "SEEKING": 12.5
+    },
+    "GASP": {
+      "Guilt-NBE": 3.37,
+      "Guilt-Repair": 4.98,
+      "Overall": 3.21,
+      "Shame-NSE": 2.71,
+      "Shame-Withdraw": 1.77
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 7.1,
+      "Prospective Anxiety": 20.1
+    },
+    "TDDS": {
+      "Moral Disgust": 1.41,
+      "Overall": 2.3,
+      "Pathogen Disgust": 3.34,
+      "Sexual Disgust": 2.14
+    }
+  },
+  "P0.825, M0.01, R1.3": {
+    "ANPS": {
+      "ANGER": 5.8,
+      "CARING": 11.37,
+      "FEAR": 6.33,
+      "PLAYFULNESS": 11.53,
+      "SADNESS": 7.67,
+      "SEEKING": 12.23
+    },
+    "GASP": {
+      "Guilt-NBE": 3.35,
+      "Guilt-Repair": 4.77,
+      "Overall": 3.46,
+      "Shame-NSE": 3.42,
+      "Shame-Withdraw": 2.32
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 10.23,
+      "Prospective Anxiety": 19.1
+    },
+    "TDDS": {
+      "Moral Disgust": 1.36,
+      "Overall": 2.2,
+      "Pathogen Disgust": 2.88,
+      "Sexual Disgust": 2.37
+    }
+  },
+  "P0.825, M0.055, R0.9": {
+    "ANPS": {
+      "ANGER": 2.3,
+      "CARING": 12.8,
+      "FEAR": 2.97,
+      "PLAYFULNESS": 12.37,
+      "SADNESS": 5.8,
+      "SEEKING": 12.9
+    },
+    "GASP": {
+      "Guilt-NBE": 3.7,
+      "Guilt-Repair": 5.07,
+      "Overall": 3.3,
+      "Shame-NSE": 2.8,
+      "Shame-Withdraw": 1.63
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 7.0,
+      "Prospective Anxiety": 19.97
+    },
+    "TDDS": {
+      "Moral Disgust": 1.63,
+      "Overall": 2.38,
+      "Pathogen Disgust": 3.3,
+      "Sexual Disgust": 2.2
+    }
+  },
+  "P0.825, M0.055, R1.1": {
+    "ANPS": {
+      "ANGER": 2.0,
+      "CARING": 12.3,
+      "FEAR": 4.2,
+      "PLAYFULNESS": 12.1,
+      "SADNESS": 5.5,
+      "SEEKING": 13.47
+    },
+    "GASP": {
+      "Guilt-NBE": 3.38,
+      "Guilt-Repair": 5.05,
+      "Overall": 3.25,
+      "Shame-NSE": 2.69,
+      "Shame-Withdraw": 1.88
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 7.57,
+      "Prospective Anxiety": 19.13
+    },
+    "TDDS": {
+      "Moral Disgust": 1.48,
+      "Overall": 2.29,
+      "Pathogen Disgust": 3.3,
+      "Sexual Disgust": 2.1
+    }
+  },
+  "P0.825, M0.055, R1.3": {
+    "ANPS": {
+      "ANGER": 5.23,
+      "CARING": 11.17,
+      "FEAR": 5.97,
+      "PLAYFULNESS": 11.2,
+      "SADNESS": 7.57,
+      "SEEKING": 11.57
+    },
+    "GASP": {
+      "Guilt-NBE": 3.21,
+      "Guilt-Repair": 4.97,
+      "Overall": 3.43,
+      "Shame-NSE": 3.23,
+      "Shame-Withdraw": 2.32
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 9.83,
+      "Prospective Anxiety": 19.6
+    },
+    "TDDS": {
+      "Moral Disgust": 1.34,
+      "Overall": 2.11,
+      "Pathogen Disgust": 2.92,
+      "Sexual Disgust": 2.05
+    }
+  },
+  "P0.825, M0.1, R0.9": {
+    "ANPS": {
+      "ANGER": 2.0,
+      "CARING": 12.77,
+      "FEAR": 2.87,
+      "PLAYFULNESS": 12.53,
+      "SADNESS": 6.13,
+      "SEEKING": 12.7
+    },
+    "GASP": {
+      "Guilt-NBE": 3.48,
+      "Guilt-Repair": 5.12,
+      "Overall": 3.24,
+      "Shame-NSE": 2.69,
+      "Shame-Withdraw": 1.68
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 6.57,
+      "Prospective Anxiety": 19.57
+    },
+    "TDDS": {
+      "Moral Disgust": 1.65,
+      "Overall": 2.41,
+      "Pathogen Disgust": 3.39,
+      "Sexual Disgust": 2.19
+    }
+  },
+  "P0.825, M0.1, R1.1": {
+    "ANPS": {
+      "ANGER": 2.47,
+      "CARING": 12.33,
+      "FEAR": 3.57,
+      "PLAYFULNESS": 12.43,
+      "SADNESS": 5.73,
+      "SEEKING": 12.83
+    },
+    "GASP": {
+      "Guilt-NBE": 3.23,
+      "Guilt-Repair": 5.0,
+      "Overall": 3.15,
+      "Shame-NSE": 2.65,
+      "Shame-Withdraw": 1.74
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 7.4,
+      "Prospective Anxiety": 19.6
+    },
+    "TDDS": {
+      "Moral Disgust": 1.38,
+      "Overall": 2.26,
+      "Pathogen Disgust": 3.28,
+      "Sexual Disgust": 2.11
+    }
+  },
+  "P0.825, M0.1, R1.3": {
+    "ANPS": {
+      "ANGER": 5.4,
+      "CARING": 11.87,
+      "FEAR": 5.63,
+      "PLAYFULNESS": 11.5,
+      "SADNESS": 7.43,
+      "SEEKING": 11.2
+    },
+    "GASP": {
+      "Guilt-NBE": 3.09,
+      "Guilt-Repair": 4.77,
+      "Overall": 3.3,
+      "Shame-NSE": 3.17,
+      "Shame-Withdraw": 2.17
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 9.83,
+      "Prospective Anxiety": 18.93
+    },
+    "TDDS": {
+      "Moral Disgust": 1.13,
+      "Overall": 2.05,
+      "Pathogen Disgust": 2.94,
+      "Sexual Disgust": 2.06
+    }
+  },
+  "P0.95, M0.01, R0.9": {
+    "ANPS": {
+      "ANGER": 2.43,
+      "CARING": 12.4,
+      "FEAR": 3.13,
+      "PLAYFULNESS": 12.53,
+      "SADNESS": 6.37,
+      "SEEKING": 13.17
+    },
+    "GASP": {
+      "Guilt-NBE": 3.73,
+      "Guilt-Repair": 5.03,
+      "Overall": 3.32,
+      "Shame-NSE": 2.71,
+      "Shame-Withdraw": 1.82
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 6.83,
+      "Prospective Anxiety": 19.5
+    },
+    "TDDS": {
+      "Moral Disgust": 1.6,
+      "Overall": 2.37,
+      "Pathogen Disgust": 3.35,
+      "Sexual Disgust": 2.14
+    }
+  },
+  "P0.95, M0.01, R1.1": {
+    "ANPS": {
+      "ANGER": 2.37,
+      "CARING": 12.13,
+      "FEAR": 4.1,
+      "PLAYFULNESS": 12.0,
+      "SADNESS": 5.93,
+      "SEEKING": 12.6
+    },
+    "GASP": {
+      "Guilt-NBE": 3.73,
+      "Guilt-Repair": 4.97,
+      "Overall": 3.32,
+      "Shame-NSE": 2.81,
+      "Shame-Withdraw": 1.77
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 7.17,
+      "Prospective Anxiety": 19.9
+    },
+    "TDDS": {
+      "Moral Disgust": 1.43,
+      "Overall": 2.29,
+      "Pathogen Disgust": 3.28,
+      "Sexual Disgust": 2.16
+    }
+  },
+  "P0.95, M0.01, R1.3": {
+    "ANPS": {
+      "ANGER": 7.5,
+      "CARING": 11.9,
+      "FEAR": 5.8,
+      "PLAYFULNESS": 11.33,
+      "SADNESS": 8.3,
+      "SEEKING": 12.5
+    },
+    "GASP": {
+      "Guilt-NBE": 3.47,
+      "Guilt-Repair": 4.64,
+      "Overall": 3.59,
+      "Shame-NSE": 3.5,
+      "Shame-Withdraw": 2.76
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 10.77,
+      "Prospective Anxiety": 19.23
+    },
+    "TDDS": {
+      "Moral Disgust": 1.67,
+      "Overall": 2.37,
+      "Pathogen Disgust": 3.0,
+      "Sexual Disgust": 2.45
+    }
+  },
+  "P0.95, M0.055, R0.9": {
+    "ANPS": {
+      "ANGER": 2.1,
+      "CARING": 12.6,
+      "FEAR": 2.97,
+      "PLAYFULNESS": 12.37,
+      "SADNESS": 5.9,
+      "SEEKING": 12.77
+    },
+    "GASP": {
+      "Guilt-NBE": 3.63,
+      "Guilt-Repair": 5.03,
+      "Overall": 3.25,
+      "Shame-NSE": 2.65,
+      "Shame-Withdraw": 1.69
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 7.47,
+      "Prospective Anxiety": 19.73
+    },
+    "TDDS": {
+      "Moral Disgust": 1.7,
+      "Overall": 2.44,
+      "Pathogen Disgust": 3.3,
+      "Sexual Disgust": 2.33
+    }
+  },
+  "P0.95, M0.055, R1.1": {
+    "ANPS": {
+      "ANGER": 2.17,
+      "CARING": 12.37,
+      "FEAR": 4.23,
+      "PLAYFULNESS": 12.37,
+      "SADNESS": 5.83,
+      "SEEKING": 12.83
+    },
+    "GASP": {
+      "Guilt-NBE": 3.63,
+      "Guilt-Repair": 4.97,
+      "Overall": 3.33,
+      "Shame-NSE": 2.87,
+      "Shame-Withdraw": 1.84
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 7.4,
+      "Prospective Anxiety": 19.27
+    },
+    "TDDS": {
+      "Moral Disgust": 1.36,
+      "Overall": 2.3,
+      "Pathogen Disgust": 3.27,
+      "Sexual Disgust": 2.27
+    }
+  },
+  "P0.95, M0.055, R1.3": {
+    "ANPS": {
+      "ANGER": 5.5,
+      "CARING": 11.13,
+      "FEAR": 5.6,
+      "PLAYFULNESS": 11.27,
+      "SADNESS": 7.6,
+      "SEEKING": 11.1
+    },
+    "GASP": {
+      "Guilt-NBE": 3.47,
+      "Guilt-Repair": 4.69,
+      "Overall": 3.55,
+      "Shame-NSE": 3.53,
+      "Shame-Withdraw": 2.52
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 10.3,
+      "Prospective Anxiety": 19.83
+    },
+    "TDDS": {
+      "Moral Disgust": 1.26,
+      "Overall": 2.11,
+      "Pathogen Disgust": 2.93,
+      "Sexual Disgust": 2.14
+    }
+  },
+  "P0.95, M0.1, R0.9": {
+    "ANPS": {
+      "ANGER": 2.03,
+      "CARING": 12.57,
+      "FEAR": 3.17,
+      "PLAYFULNESS": 12.2,
+      "SADNESS": 5.8,
+      "SEEKING": 12.87
+    },
+    "GASP": {
+      "Guilt-NBE": 3.44,
+      "Guilt-Repair": 5.05,
+      "Overall": 3.21,
+      "Shame-NSE": 2.7,
+      "Shame-Withdraw": 1.66
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 6.6,
+      "Prospective Anxiety": 20.63
+    },
+    "TDDS": {
+      "Moral Disgust": 1.61,
+      "Overall": 2.42,
+      "Pathogen Disgust": 3.38,
+      "Sexual Disgust": 2.26
+    }
+  },
+  "P0.95, M0.1, R1.1": {
+    "ANPS": {
+      "ANGER": 2.1,
+      "CARING": 12.63,
+      "FEAR": 3.57,
+      "PLAYFULNESS": 12.47,
+      "SADNESS": 5.47,
+      "SEEKING": 12.77
+    },
+    "GASP": {
+      "Guilt-NBE": 3.62,
+      "Guilt-Repair": 5.03,
+      "Overall": 3.31,
+      "Shame-NSE": 2.81,
+      "Shame-Withdraw": 1.79
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 7.03,
+      "Prospective Anxiety": 19.1
+    },
+    "TDDS": {
+      "Moral Disgust": 1.49,
+      "Overall": 2.31,
+      "Pathogen Disgust": 3.25,
+      "Sexual Disgust": 2.2
+    }
+  },
+  "P0.95, M0.1, R1.3": {
+    "ANPS": {
+      "ANGER": 5.33,
+      "CARING": 11.27,
+      "FEAR": 6.0,
+      "PLAYFULNESS": 11.3,
+      "SADNESS": 7.83,
+      "SEEKING": 11.4
+    },
+    "GASP": {
+      "Guilt-NBE": 3.57,
+      "Guilt-Repair": 4.61,
+      "Overall": 3.46,
+      "Shame-NSE": 3.29,
+      "Shame-Withdraw": 2.38
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 9.63,
+      "Prospective Anxiety": 18.63
+    },
+    "TDDS": {
+      "Moral Disgust": 1.33,
+      "Overall": 2.16,
+      "Pathogen Disgust": 3.02,
+      "Sexual Disgust": 2.12
+    }
+  },
+  "T0.3, K20, R0.9": {
+    "ANPS": {
+      "ANGER": 2.6,
+      "CARING": 12.93,
+      "FEAR": 3.1,
+      "PLAYFULNESS": 12.47,
+      "SADNESS": 6.67,
+      "SEEKING": 13.03
+    },
+    "GASP": {
+      "Guilt-NBE": 3.57,
+      "Guilt-Repair": 5.04,
+      "Overall": 3.27,
+      "Shame-NSE": 2.77,
+      "Shame-Withdraw": 1.69
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 7.57,
+      "Prospective Anxiety": 19.27
+    },
+    "TDDS": {
+      "Moral Disgust": 1.53,
+      "Overall": 2.32,
+      "Pathogen Disgust": 3.26,
+      "Sexual Disgust": 2.18
+    }
+  },
+  "T0.3, K20, R1.1": {
+    "ANPS": {
+      "ANGER": 2.57,
+      "CARING": 11.97,
+      "FEAR": 4.07,
+      "PLAYFULNESS": 12.3,
+      "SADNESS": 6.3,
+      "SEEKING": 12.83
+    },
+    "GASP": {
+      "Guilt-NBE": 3.36,
+      "Guilt-Repair": 5.24,
+      "Overall": 3.25,
+      "Shame-NSE": 2.67,
+      "Shame-Withdraw": 1.75
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 7.5,
+      "Prospective Anxiety": 19.17
+    },
+    "TDDS": {
+      "Moral Disgust": 1.38,
+      "Overall": 2.26,
+      "Pathogen Disgust": 3.15,
+      "Sexual Disgust": 2.26
+    }
+  },
+  "T0.3, K20, R1.3": {
+    "ANPS": {
+      "ANGER": 4.87,
+      "CARING": 11.63,
+      "FEAR": 5.57,
+      "PLAYFULNESS": 11.57,
+      "SADNESS": 7.3,
+      "SEEKING": 10.97
+    },
+    "GASP": {
+      "Guilt-NBE": 3.5,
+      "Guilt-Repair": 4.81,
+      "Overall": 3.48,
+      "Shame-NSE": 3.36,
+      "Shame-Withdraw": 2.23
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 8.0,
+      "Prospective Anxiety": 18.3
+    },
+    "TDDS": {
+      "Moral Disgust": 1.19,
+      "Overall": 2.06,
+      "Pathogen Disgust": 3.04,
+      "Sexual Disgust": 1.96
+    }
+  },
+  "T0.3, K50, R0.9": {
+    "ANPS": {
+      "ANGER": 2.43,
+      "CARING": 12.53,
+      "FEAR": 3.53,
+      "PLAYFULNESS": 12.13,
+      "SADNESS": 6.33,
+      "SEEKING": 12.57
+    },
+    "GASP": {
+      "Guilt-NBE": 3.5,
+      "Guilt-Repair": 5.1,
+      "Overall": 3.27,
+      "Shame-NSE": 2.79,
+      "Shame-Withdraw": 1.71
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 7.37,
+      "Prospective Anxiety": 19.4
+    },
+    "TDDS": {
+      "Moral Disgust": 1.68,
+      "Overall": 2.39,
+      "Pathogen Disgust": 3.37,
+      "Sexual Disgust": 2.12
+    }
+  },
+  "T0.3, K50, R1.1": {
+    "ANPS": {
+      "ANGER": 2.3,
+      "CARING": 12.13,
+      "FEAR": 3.97,
+      "PLAYFULNESS": 12.23,
+      "SADNESS": 6.43,
+      "SEEKING": 12.73
+    },
+    "GASP": {
+      "Guilt-NBE": 3.51,
+      "Guilt-Repair": 5.03,
+      "Overall": 3.27,
+      "Shame-NSE": 2.7,
+      "Shame-Withdraw": 1.84
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 7.1,
+      "Prospective Anxiety": 19.77
+    },
+    "TDDS": {
+      "Moral Disgust": 1.36,
+      "Overall": 2.23,
+      "Pathogen Disgust": 3.24,
+      "Sexual Disgust": 2.11
+    }
+  },
+  "T0.3, K50, R1.3": {
+    "ANPS": {
+      "ANGER": 5.03,
+      "CARING": 11.53,
+      "FEAR": 5.47,
+      "PLAYFULNESS": 11.5,
+      "SADNESS": 6.8,
+      "SEEKING": 11.37
+    },
+    "GASP": {
+      "Guilt-NBE": 3.5,
+      "Guilt-Repair": 4.82,
+      "Overall": 3.43,
+      "Shame-NSE": 3.3,
+      "Shame-Withdraw": 2.11
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 8.47,
+      "Prospective Anxiety": 19.33
+    },
+    "TDDS": {
+      "Moral Disgust": 1.15,
+      "Overall": 2.02,
+      "Pathogen Disgust": 2.98,
+      "Sexual Disgust": 1.92
+    }
+  },
+  "T0.3, K80, R0.9": {
+    "ANPS": {
+      "ANGER": 2.2,
+      "CARING": 13.13,
+      "FEAR": 2.8,
+      "PLAYFULNESS": 12.03,
+      "SADNESS": 6.67,
+      "SEEKING": 12.83
+    },
+    "GASP": {
+      "Guilt-NBE": 3.36,
+      "Guilt-Repair": 4.94,
+      "Overall": 3.17,
+      "Shame-NSE": 2.67,
+      "Shame-Withdraw": 1.71
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 7.23,
+      "Prospective Anxiety": 19.6
+    },
+    "TDDS": {
+      "Moral Disgust": 1.65,
+      "Overall": 2.4,
+      "Pathogen Disgust": 3.32,
+      "Sexual Disgust": 2.22
+    }
+  },
+  "T0.3, K80, R1.1": {
+    "ANPS": {
+      "ANGER": 2.6,
+      "CARING": 11.9,
+      "FEAR": 4.03,
+      "PLAYFULNESS": 12.27,
+      "SADNESS": 6.1,
+      "SEEKING": 12.97
+    },
+    "GASP": {
+      "Guilt-NBE": 3.19,
+      "Guilt-Repair": 5.12,
+      "Overall": 3.18,
+      "Shame-NSE": 2.63,
+      "Shame-Withdraw": 1.78
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 7.43,
+      "Prospective Anxiety": 18.83
+    },
+    "TDDS": {
+      "Moral Disgust": 1.47,
+      "Overall": 2.3,
+      "Pathogen Disgust": 3.28,
+      "Sexual Disgust": 2.15
+    }
+  },
+  "T0.3, K80, R1.3": {
+    "ANPS": {
+      "ANGER": 4.73,
+      "CARING": 11.33,
+      "FEAR": 5.87,
+      "PLAYFULNESS": 11.27,
+      "SADNESS": 6.57,
+      "SEEKING": 11.03
+    },
+    "GASP": {
+      "Guilt-NBE": 3.54,
+      "Guilt-Repair": 4.92,
+      "Overall": 3.49,
+      "Shame-NSE": 3.33,
+      "Shame-Withdraw": 2.18
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 8.4,
+      "Prospective Anxiety": 19.0
+    },
+    "TDDS": {
+      "Moral Disgust": 0.99,
+      "Overall": 2.06,
+      "Pathogen Disgust": 3.02,
+      "Sexual Disgust": 2.18
+    }
+  },
+  "T0.5, K20, R0.9": {
+    "ANPS": {
+      "ANGER": 2.73,
+      "CARING": 13.0,
+      "FEAR": 3.57,
+      "PLAYFULNESS": 12.23,
+      "SADNESS": 6.47,
+      "SEEKING": 12.5
+    },
+    "GASP": {
+      "Guilt-NBE": 3.32,
+      "Guilt-Repair": 5.08,
+      "Overall": 3.2,
+      "Shame-NSE": 2.69,
+      "Shame-Withdraw": 1.7
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 7.67,
+      "Prospective Anxiety": 19.33
+    },
+    "TDDS": {
+      "Moral Disgust": 1.67,
+      "Overall": 2.44,
+      "Pathogen Disgust": 3.37,
+      "Sexual Disgust": 2.29
+    }
+  },
+  "T0.5, K20, R1.1": {
+    "ANPS": {
+      "ANGER": 2.97,
+      "CARING": 12.4,
+      "FEAR": 4.0,
+      "PLAYFULNESS": 12.07,
+      "SADNESS": 6.03,
+      "SEEKING": 12.97
+    },
+    "GASP": {
+      "Guilt-NBE": 3.61,
+      "Guilt-Repair": 5.17,
+      "Overall": 3.29,
+      "Shame-NSE": 2.61,
+      "Shame-Withdraw": 1.77
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 7.3,
+      "Prospective Anxiety": 19.73
+    },
+    "TDDS": {
+      "Moral Disgust": 1.49,
+      "Overall": 2.28,
+      "Pathogen Disgust": 3.25,
+      "Sexual Disgust": 2.1
+    }
+  },
+  "T0.5, K20, R1.3": {
+    "ANPS": {
+      "ANGER": 5.17,
+      "CARING": 11.23,
+      "FEAR": 5.2,
+      "PLAYFULNESS": 11.67,
+      "SADNESS": 7.43,
+      "SEEKING": 11.33
+    },
+    "GASP": {
+      "Guilt-NBE": 3.39,
+      "Guilt-Repair": 4.88,
+      "Overall": 3.41,
+      "Shame-NSE": 3.31,
+      "Shame-Withdraw": 2.08
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 9.3,
+      "Prospective Anxiety": 19.0
+    },
+    "TDDS": {
+      "Moral Disgust": 0.95,
+      "Overall": 1.94,
+      "Pathogen Disgust": 2.9,
+      "Sexual Disgust": 1.98
+    }
+  },
+  "T0.5, K50, R0.9": {
+    "ANPS": {
+      "ANGER": 1.63,
+      "CARING": 13.07,
+      "FEAR": 2.87,
+      "PLAYFULNESS": 12.47,
+      "SADNESS": 5.97,
+      "SEEKING": 13.17
+    },
+    "GASP": {
+      "Guilt-NBE": 3.3,
+      "Guilt-Repair": 5.07,
+      "Overall": 3.17,
+      "Shame-NSE": 2.7,
+      "Shame-Withdraw": 1.62
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 6.9,
+      "Prospective Anxiety": 20.1
+    },
+    "TDDS": {
+      "Moral Disgust": 1.74,
+      "Overall": 2.43,
+      "Pathogen Disgust": 3.31,
+      "Sexual Disgust": 2.24
+    }
+  },
+  "T0.5, K50, R1.1": {
+    "ANPS": {
+      "ANGER": 2.17,
+      "CARING": 12.17,
+      "FEAR": 3.7,
+      "PLAYFULNESS": 12.6,
+      "SADNESS": 5.5,
+      "SEEKING": 13.2
+    },
+    "GASP": {
+      "Guilt-NBE": 3.64,
+      "Guilt-Repair": 5.12,
+      "Overall": 3.29,
+      "Shame-NSE": 2.67,
+      "Shame-Withdraw": 1.72
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 7.23,
+      "Prospective Anxiety": 18.57
+    },
+    "TDDS": {
+      "Moral Disgust": 1.43,
+      "Overall": 2.28,
+      "Pathogen Disgust": 3.24,
+      "Sexual Disgust": 2.16
+    }
+  },
+  "T0.5, K50, R1.3": {
+    "ANPS": {
+      "ANGER": 4.73,
+      "CARING": 11.6,
+      "FEAR": 5.63,
+      "PLAYFULNESS": 11.53,
+      "SADNESS": 7.03,
+      "SEEKING": 11.0
+    },
+    "GASP": {
+      "Guilt-NBE": 3.49,
+      "Guilt-Repair": 4.92,
+      "Overall": 3.5,
+      "Shame-NSE": 3.48,
+      "Shame-Withdraw": 2.1
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 8.97,
+      "Prospective Anxiety": 18.53
+    },
+    "TDDS": {
+      "Moral Disgust": 1.04,
+      "Overall": 2.0,
+      "Pathogen Disgust": 3.03,
+      "Sexual Disgust": 1.94
+    }
+  },
+  "T0.5, K80, R0.9": {
+    "ANPS": {
+      "ANGER": 2.0,
+      "CARING": 12.57,
+      "FEAR": 3.4,
+      "PLAYFULNESS": 12.23,
+      "SADNESS": 6.27,
+      "SEEKING": 12.97
+    },
+    "GASP": {
+      "Guilt-NBE": 3.41,
+      "Guilt-Repair": 5.13,
+      "Overall": 3.25,
+      "Shame-NSE": 2.8,
+      "Shame-Withdraw": 1.67
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 7.27,
+      "Prospective Anxiety": 19.57
+    },
+    "TDDS": {
+      "Moral Disgust": 1.68,
+      "Overall": 2.38,
+      "Pathogen Disgust": 3.32,
+      "Sexual Disgust": 2.13
+    }
+  },
+  "T0.5, K80, R1.1": {
+    "ANPS": {
+      "ANGER": 1.73,
+      "CARING": 12.47,
+      "FEAR": 3.93,
+      "PLAYFULNESS": 12.13,
+      "SADNESS": 5.43,
+      "SEEKING": 12.83
+    },
+    "GASP": {
+      "Guilt-NBE": 3.42,
+      "Guilt-Repair": 5.08,
+      "Overall": 3.23,
+      "Shame-NSE": 2.6,
+      "Shame-Withdraw": 1.81
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 7.23,
+      "Prospective Anxiety": 19.57
+    },
+    "TDDS": {
+      "Moral Disgust": 1.38,
+      "Overall": 2.27,
+      "Pathogen Disgust": 3.28,
+      "Sexual Disgust": 2.14
+    }
+  },
+  "T0.5, K80, R1.3": {
+    "ANPS": {
+      "ANGER": 4.63,
+      "CARING": 11.77,
+      "FEAR": 5.13,
+      "PLAYFULNESS": 11.37,
+      "SADNESS": 7.6,
+      "SEEKING": 10.93
+    },
+    "GASP": {
+      "Guilt-NBE": 3.4,
+      "Guilt-Repair": 4.94,
+      "Overall": 3.41,
+      "Shame-NSE": 3.2,
+      "Shame-Withdraw": 2.1
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 8.7,
+      "Prospective Anxiety": 18.73
+    },
+    "TDDS": {
+      "Moral Disgust": 1.03,
+      "Overall": 1.94,
+      "Pathogen Disgust": 2.89,
+      "Sexual Disgust": 1.91
+    }
+  },
+  "T0.7, K20, R0.9": {
+    "ANPS": {
+      "ANGER": 2.03,
+      "CARING": 12.67,
+      "FEAR": 3.2,
+      "PLAYFULNESS": 11.9,
+      "SADNESS": 6.67,
+      "SEEKING": 12.73
+    },
+    "GASP": {
+      "Guilt-NBE": 3.49,
+      "Guilt-Repair": 4.99,
+      "Overall": 3.22,
+      "Shame-NSE": 2.67,
+      "Shame-Withdraw": 1.72
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 7.33,
+      "Prospective Anxiety": 20.23
+    },
+    "TDDS": {
+      "Moral Disgust": 1.62,
+      "Overall": 2.43,
+      "Pathogen Disgust": 3.35,
+      "Sexual Disgust": 2.31
+    }
+  },
+  "T0.7, K20, R1.1": {
+    "ANPS": {
+      "ANGER": 1.9,
+      "CARING": 12.33,
+      "FEAR": 3.83,
+      "PLAYFULNESS": 12.37,
+      "SADNESS": 5.57,
+      "SEEKING": 13.03
+    },
+    "GASP": {
+      "Guilt-NBE": 3.43,
+      "Guilt-Repair": 5.07,
+      "Overall": 3.23,
+      "Shame-NSE": 2.67,
+      "Shame-Withdraw": 1.73
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 7.03,
+      "Prospective Anxiety": 19.4
+    },
+    "TDDS": {
+      "Moral Disgust": 1.42,
+      "Overall": 2.26,
+      "Pathogen Disgust": 3.19,
+      "Sexual Disgust": 2.18
+    }
+  },
+  "T0.7, K20, R1.3": {
+    "ANPS": {
+      "ANGER": 5.2,
+      "CARING": 11.37,
+      "FEAR": 5.53,
+      "PLAYFULNESS": 11.7,
+      "SADNESS": 7.33,
+      "SEEKING": 11.23
+    },
+    "GASP": {
+      "Guilt-NBE": 3.36,
+      "Guilt-Repair": 4.89,
+      "Overall": 3.44,
+      "Shame-NSE": 3.24,
+      "Shame-Withdraw": 2.27
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 8.9,
+      "Prospective Anxiety": 19.47
+    },
+    "TDDS": {
+      "Moral Disgust": 1.17,
+      "Overall": 2.07,
+      "Pathogen Disgust": 2.97,
+      "Sexual Disgust": 2.07
+    }
+  },
+  "T0.7, K50, R0.9": {
+    "ANPS": {
+      "ANGER": 1.93,
+      "CARING": 12.47,
+      "FEAR": 2.5,
+      "PLAYFULNESS": 12.1,
+      "SADNESS": 6.1,
+      "SEEKING": 13.17
+    },
+    "GASP": {
+      "Guilt-NBE": 3.46,
+      "Guilt-Repair": 4.98,
+      "Overall": 3.24,
+      "Shame-NSE": 2.76,
+      "Shame-Withdraw": 1.77
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 7.33,
+      "Prospective Anxiety": 19.73
+    },
+    "TDDS": {
+      "Moral Disgust": 1.67,
+      "Overall": 2.39,
+      "Pathogen Disgust": 3.31,
+      "Sexual Disgust": 2.19
+    }
+  },
+  "T0.7, K50, R1.1": {
+    "ANPS": {
+      "ANGER": 2.23,
+      "CARING": 12.33,
+      "FEAR": 3.97,
+      "PLAYFULNESS": 12.4,
+      "SADNESS": 5.73,
+      "SEEKING": 13.07
+    },
+    "GASP": {
+      "Guilt-NBE": 3.47,
+      "Guilt-Repair": 5.04,
+      "Overall": 3.24,
+      "Shame-NSE": 2.72,
+      "Shame-Withdraw": 1.75
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 6.83,
+      "Prospective Anxiety": 18.87
+    },
+    "TDDS": {
+      "Moral Disgust": 1.47,
+      "Overall": 2.28,
+      "Pathogen Disgust": 3.27,
+      "Sexual Disgust": 2.1
+    }
+  },
+  "T0.7, K50, R1.3": {
+    "ANPS": {
+      "ANGER": 4.8,
+      "CARING": 11.63,
+      "FEAR": 5.47,
+      "PLAYFULNESS": 10.97,
+      "SADNESS": 7.57,
+      "SEEKING": 11.73
+    },
+    "GASP": {
+      "Guilt-NBE": 3.3,
+      "Guilt-Repair": 4.78,
+      "Overall": 3.46,
+      "Shame-NSE": 3.44,
+      "Shame-Withdraw": 2.33
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 9.87,
+      "Prospective Anxiety": 18.53
+    },
+    "TDDS": {
+      "Moral Disgust": 1.24,
+      "Overall": 2.13,
+      "Pathogen Disgust": 2.97,
+      "Sexual Disgust": 2.19
+    }
+  },
+  "T0.7, K80, R0.9": {
+    "ANPS": {
+      "ANGER": 2.33,
+      "CARING": 12.93,
+      "FEAR": 3.03,
+      "PLAYFULNESS": 12.3,
+      "SADNESS": 6.27,
+      "SEEKING": 13.03
+    },
+    "GASP": {
+      "Guilt-NBE": 3.58,
+      "Guilt-Repair": 5.0,
+      "Overall": 3.25,
+      "Shame-NSE": 2.69,
+      "Shame-Withdraw": 1.74
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 6.87,
+      "Prospective Anxiety": 20.07
+    },
+    "TDDS": {
+      "Moral Disgust": 1.56,
+      "Overall": 2.39,
+      "Pathogen Disgust": 3.35,
+      "Sexual Disgust": 2.27
+    }
+  },
+  "T0.7, K80, R1.1": {
+    "ANPS": {
+      "ANGER": 1.87,
+      "CARING": 12.53,
+      "FEAR": 3.3,
+      "PLAYFULNESS": 12.73,
+      "SADNESS": 5.77,
+      "SEEKING": 13.07
+    },
+    "GASP": {
+      "Guilt-NBE": 3.3,
+      "Guilt-Repair": 5.03,
+      "Overall": 3.2,
+      "Shame-NSE": 2.77,
+      "Shame-Withdraw": 1.73
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 7.27,
+      "Prospective Anxiety": 18.5
+    },
+    "TDDS": {
+      "Moral Disgust": 1.4,
+      "Overall": 2.29,
+      "Pathogen Disgust": 3.26,
+      "Sexual Disgust": 2.22
+    }
+  },
+  "T0.7, K80, R1.3": {
+    "ANPS": {
+      "ANGER": 5.1,
+      "CARING": 11.93,
+      "FEAR": 5.6,
+      "PLAYFULNESS": 11.6,
+      "SADNESS": 7.07,
+      "SEEKING": 11.47
+    },
+    "GASP": {
+      "Guilt-NBE": 3.66,
+      "Guilt-Repair": 4.74,
+      "Overall": 3.47,
+      "Shame-NSE": 3.24,
+      "Shame-Withdraw": 2.23
+    },
+    "IUS": {
+      "Inhibitory Anxiety": 9.43,
+      "Prospective Anxiety": 20.37
+    },
+    "TDDS": {
+      "Moral Disgust": 1.4,
+      "Overall": 2.2,
+      "Pathogen Disgust": 2.96,
+      "Sexual Disgust": 2.25
+    }
+  }
+};
+
+/* ---------------- app ---------------- */
+(function(){
+  const $ = s => document.querySelector(s);
+  const order = Object.keys(SURVEYS);
+
+  // Parse condition labels like "T0.3, K20, R0.9"
+  const levels = {};
+  Object.keys(OUR_RESULTS).forEach(label => {
+    label.split(",").forEach(p => {
+      const m = p.trim().match(/^([A-Z])([\d.]+)$/);
+      if (m) (levels[m[1]] = levels[m[1]] || new Set()).add(m[2]);
+    });
+  });
+  Object.keys(levels).forEach(k => { levels[k] = [...levels[k]].sort((a, b) => parseFloat(a) - parseFloat(b)); });
+  const nSettings = Object.keys(OUR_RESULTS).length;
+
+  function subsOf(sv){ return SURVEYS[sv].groups.flatMap(g => g.subs); }
+  function scaleOf(sv, sub){ return sub.scale || SURVEYS[sv].scale; }
+  function pct(v, [lo, hi]){ return Math.max(0, Math.min(100, 100 * (v - lo) / (hi - lo))); }
+  function fmt(v, d){ return v == null ? "–" : v.toFixed(d); }
+  function signed(z){ const r = Math.abs(z).toFixed(1); return r === "0.0" ? "0.0" : (z > 0 ? "+" : "−") + r; }
+  function esc(s){ return String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])); }
+
+  // Model min/max per subscale across all settings
+  const spread = {};
+  order.forEach(sv => {
+    spread[sv] = {};
+    subsOf(sv).forEach(sub => {
+      const vals = Object.values(OUR_RESULTS).map(c => c[sv] && c[sv][sub.key]).filter(v => typeof v === "number");
+      spread[sv][sub.key] = vals.length ? [Math.min(...vals), Math.max(...vals)] : null;
+    });
+  });
+
+  const state = Object.assign({ survey: "ANPS" }, DEFAULT);
+  try {
+    const h = (location.hash || "").replace("#", "").toUpperCase();
+    if (SURVEYS[h]) state.survey = h;
+  } catch (e) {}
+
+  const currentLabel = () => GRIDS[state.grid].order.map(k => k + state[k]).join(", ");
+
+  /* ---- tabs ---- */
+  const tabs = $("#tabs");
+  tabs.innerHTML = order.map(sv =>
+    `<button class="tab" type="button" role="tab" id="tab-${sv}" data-k="${sv}">${esc(SURVEYS[sv].tab)}</button>`).join("");
+  tabs.addEventListener("click", e => {
+    const b = e.target.closest(".tab"); if (!b || b.dataset.k === state.survey) return;
+    goTo(b.dataset.k);
+  });
+  function goTo(sv){
+    state.survey = sv;
+    try { history.replaceState(null, "", "#" + sv.toLowerCase()); } catch (err) {}
+    renderSurvey();
+    const s = $("#survey");
+    if (s.getBoundingClientRect().top < 0) s.scrollIntoView({ block: "start" });
+  }
+  $("#next").addEventListener("click", () => goTo(order[(order.indexOf(state.survey) + 1) % order.length]));
+
+  /* ---- setting bar ---- */
+  function segHTML(k){
+    return `<div class="seg" role="group" aria-labelledby="pn-${k}">${(levels[k] || []).map(v =>
+      `<button type="button" id="p-${k}-${v.replace(".", "_")}" data-k="${k}" data-v="${v}" aria-pressed="${v === state[k]}">${v}</button>`).join("")}</div>`;
+  }
+  function paramHTML(k){
+    const p = PARAMS[k];
+    const sub = k === "R" ? '<span class="p-tag">Biggest effect</span>' : `<span class="p-gloss">${esc(p.gloss)}</span>`;
+    return `<div class="param"><div><span class="p-name" id="pn-${k}">${esc(p.name)}</span>${sub}</div>${segHTML(k)}</div>`;
+  }
+  const gt = $("#grid-toggle");
+  gt.innerHTML = Object.keys(GRIDS).map(g => `<button type="button" id="grid-${g}" data-g="${g}">${esc(GRIDS[g].label)}</button>`).join("");
+  gt.addEventListener("click", e => {
+    const b = e.target.closest("button"); if (!b || b.dataset.g === state.grid) return;
+    state.grid = b.dataset.g; renderParams(); updateValues();
+  });
+  function renderParams(){
+    gt.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.g === state.grid)));
+    $("#params").innerHTML = GRIDS[state.grid].order.filter(k => k !== "R").map(paramHTML).join("");
+  }
+  $("#param-R").innerHTML = paramHTML("R");
+  $("#bar").addEventListener("click", e => {
+    const b = e.target.closest("button[data-k]"); if (!b) return;
+    state[b.dataset.k] = b.dataset.v;
+    b.parentElement.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+    updateValues();
+  });
+  const more = $("#more"), panel = $("#more-panel");
+  more.addEventListener("click", () => {
+    const open = panel.hidden;
+    panel.hidden = !open;
+    more.setAttribute("aria-expanded", String(open));
+    more.textContent = open ? "Done" : "All settings";
+  });
+  // Keep page content clear of the fixed bar
+  const bar = $("#bar");
+  const setBarH = () => document.documentElement.style.setProperty("--bar-h", bar.offsetHeight + "px");
+  if ("ResizeObserver" in window) new ResizeObserver(setBarH).observe(bar);
+  window.addEventListener("resize", setBarH); setBarH();
+
+  /* ---- survey ---- */
+  function renderSurvey(){
+    const sv = state.survey, s = SURVEYS[sv];
+    tabs.querySelectorAll(".tab").forEach(b => {
+      const on = b.dataset.k === sv;
+      b.setAttribute("aria-selected", String(on)); b.tabIndex = on ? 0 : -1;
+    });
+    $("#s-kicker").textContent = `${s.tab} · ${s.tabSub}`;
+    $("#s-full").textContent = s.full;
+    $("#s-measures").textContent = s.measures;
+    $("#s-reading").textContent = s.reading;
+
+    let html = "";
+    s.groups.forEach(g => {
+      if (g.label) html += `<p class="group-label">${esc(g.label)}</p>`;
+      g.subs.forEach(sub => {
+        const sc = scaleOf(sv, sub), [m, sd] = sub.norm, sp = spread[sv][sub.key], d = s.decimals;
+        const mid = (sc[0] + sc[1]) / 2;
+        const bL = pct(m - sd, sc), bR = pct(m + sd, sc);
+        html += `<div class="row" data-key="${esc(sub.key)}">
+          <div class="row-top"><h4>${esc(sub.name)}</h4><span class="chip"></span></div>
+          <p class="desc">${esc(sub.desc)}</p>
+          <div class="strip">
+            <div class="rail"></div>
+            <div class="band" style="left:${bL}%;width:${bR - bL}%" data-tip="Human range: ${fmt(m - sd, d)} to ${fmt(m + sd, d)}"></div>
+            ${sp ? `<div class="range" style="left:${pct(sp[0], sc)}%;width:${Math.max(pct(sp[1], sc) - pct(sp[0], sc), 0.8)}%" data-tip="Model over all ${nSettings} settings: ${fmt(sp[0], d)} to ${fmt(sp[1], d)}"></div>` : ""}
+            <div class="mean" style="left:${pct(m, sc)}%" data-tip="Human average: ${fmt(m, d)}"></div>
+            <div class="dot" style="left:${pct(mid, sc)}%"></div>
+          </div>
+          <div class="axis"><span style="left:0%">${sc[0]}</span><span style="left:50%">${+mid.toFixed(2)}</span><span style="left:100%">${sc[1]}</span></div>
+          <div class="readout">
+            <span><i class="k-dot"></i>Model <b class="mv">–</b></span>
+            <span><i class="k-mean"></i>People <b>${fmt(m, d)}</b><span class="sd">± ${fmt(sd, d)}</span></span>
+          </div>
+        </div>`;
+      });
+    });
+    $("#rows").innerHTML = html;
+
+    $("#about").innerHTML = `<h3>About the ${esc(s.tab)}</h3>
+      <dl>
+        <div><dt>Response format</dt><dd>${esc(s.format)}</dd></div>
+        <div><dt>Example item</dt><dd class="example">${esc(s.example)}</dd></div>
+        <div><dt>Human sample</dt><dd>${esc(s.normNote)}</dd></div>
+        <div><dt>Source</dt><dd>${esc(s.cite)} <a href="${esc(s.link)}" target="_blank" rel="noopener">${esc(s.link.replace("https://", ""))}</a></dd></div>
+      </dl>`;
+
+    const nx = SURVEYS[order[(order.indexOf(sv) + 1) % order.length]];
+    $("#next").innerHTML = `<span><small>Next questionnaire</small>${esc(nx.tab)} · ${esc(nx.tabSub)}</span><span class="arrow" aria-hidden="true">→</span>`;
+    updateValues(true);
+  }
+
+  /* ---- values for the selected setting (updated in place so dots glide) ---- */
+  function updateValues(instant){
+    const sv = state.survey, s = SURVEYS[sv], label = currentLabel();
+    const data = (OUR_RESULTS[label] || {})[sv] || {};
+    $("#bar-code").textContent = label.replace(/, /g, " · ");
+    let below = 0, within = 0, above = 0, total = 0;
+    document.querySelectorAll("#rows .row").forEach(row => {
+      const sub = subsOf(sv).find(x => x.key === row.dataset.key);
+      const sc = scaleOf(sv, sub), [m, sd] = sub.norm, d = s.decimals, v = data[sub.key];
+      const dot = row.querySelector(".dot"), chip = row.querySelector(".chip");
+      row.querySelector(".mv").textContent = fmt(typeof v === "number" ? v : null, d);
+      if (typeof v !== "number") { dot.hidden = true; chip.className = "chip"; chip.textContent = "No data"; return; }
+      dot.hidden = false;
+      if (instant) dot.style.transition = "none";
+      dot.style.left = pct(v, sc) + "%";
+      dot.dataset.tip = `Model at ${label}: ${fmt(v, d)}`;
+      if (instant) { void dot.offsetWidth; dot.style.transition = ""; }
+      const z = (v - m) / sd; total++;
+      let word = "In range", cls = "chip";
+      if (z <= -1) { word = "Below range"; cls = "chip out"; below++; }
+      else if (z >= 1) { word = "Above range"; cls = "chip out"; above++; }
+      else within++;
+      chip.className = cls;
+      chip.innerHTML = `${word} <span class="z">${signed(z)} SD</span>`;
+    });
+    const extra = [];
+    if (below) extra.push(`below it on ${below}`);
+    if (above) extra.push(`above it on ${above}`);
+    const lead = `Inside the human range on ${within} of ${total} scale${total > 1 ? "s" : ""}`;
+    $("#summary").textContent = total
+      ? lead + (extra.length === 2 ? `, ${extra[0]} and ${extra[1]}` : extra.length ? ` and ${extra[0]}` : "") + ". Repetition penalty, which stops the model repeating itself, moves the scores most. Switch it between 0.9 and 1.3 below and watch the coral dots."
+      : "No model results for this setting.";
+  }
+
+
+  /* ---- tooltip (hover on desktop, tap on phones) ---- */
+  const tip = $("#tip");
+  let pinned = null;
+  function showTip(el, x, y){
+    tip.textContent = el.dataset.tip; tip.hidden = false;
+    const r = tip.getBoundingClientRect();
+    tip.style.left = Math.min(Math.max(8, x - r.width / 2), window.innerWidth - r.width - 8) + "px";
+    tip.style.top = (y - r.height - 14 < 8 ? y + 18 : y - r.height - 14) + "px";
+  }
+  document.addEventListener("pointermove", e => {
+    if (e.pointerType !== "mouse") return;
+    const el = e.target.closest && e.target.closest(".strip [data-tip]");
+    if (el) showTip(el, e.clientX, e.clientY); else if (!pinned) tip.hidden = true;
+  });
+  document.addEventListener("click", e => {
+    const el = e.target.closest && e.target.closest(".strip [data-tip]");
+    if (el) { pinned = el; showTip(el, e.clientX, e.clientY); } else { pinned = null; tip.hidden = true; }
+  });
+  window.addEventListener("scroll", () => { if (pinned) { pinned = null; tip.hidden = true; } }, { passive: true });
+
+  renderParams();
+  renderSurvey();
+})();
+</script>
+
+</body></html>
